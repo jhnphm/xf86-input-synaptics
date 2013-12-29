@@ -50,7 +50,8 @@
 enum TouchpadState {
     TouchpadOn = 0,
     TouchpadOff = 1,
-    TappingOff = 2
+    TappingOff = 2,
+    MotionOff = 3
 };
 
 static Bool pad_disabled
@@ -78,7 +79,7 @@ static void
 usage(void)
 {
     fprintf(stderr,
-            "Usage: syndaemon [-i idle-time] [-m poll-delay] [-d] [-t] [-k]\n");
+            "Usage: syndaemon [-i idle-time] [-m poll-delay] [-d] [-t mode] [-k]\n");
     fprintf(stderr,
             "  -i How many seconds to wait after the last key press before\n");
     fprintf(stderr, "     enabling the touchpad. (default is 2.0s)\n");
@@ -87,7 +88,9 @@ usage(void)
     fprintf(stderr, "  -d Start as a daemon, i.e. in the background.\n");
     fprintf(stderr, "  -p Create a pid file with the specified name.\n");
     fprintf(stderr,
-            "  -t Only disable tapping and scrolling, not mouse movements.\n");
+            "  -t Disable state. 1 for disabling touchpad entirely, 2 for disabling tapping and scrolling only, 3 for disabling motion only.\n");
+    fprintf(stderr,
+            "  -M Only disable mouse movements.\n");
     fprintf(stderr,
             "  -k Ignore modifier keys when monitoring keyboard activity.\n");
     fprintf(stderr, "  -K Like -k but also ignore Modifier+Key combos.\n");
@@ -667,7 +670,10 @@ main(int argc, char *argv[])
             background = 1;
             break;
         case 't':
-            disable_state = TappingOff;
+	    disable_state = atoi(optarg);
+	    if(disable_state > MotionOff){
+		usage();
+	    }
             break;
         case 'p':
             pid_file = optarg;

@@ -2897,9 +2897,14 @@ HandleState(InputInfoPtr pInfo, struct SynapticsHwState *hw, CARD32 now,
             buttons |= tap_mask;
     }
 
+	LogMessageVerbSigSafe(X_WARNING, 0, "touchpad_off: %d\n", para->touchpad_off);
+	LogMessageVerbSigSafe(X_WARNING, 0, "touchpad_off_C: %d\n", TOUCHPAD_MOTION_OFF);
+	printf("touchpad_off:%d\n",para->touchpad_off);
+	printf("touchpad_off_C:%d\n",TOUCHPAD_MOTION_OFF);
     /* Post events */
-    if (finger >= FS_TOUCHED && (dx || dy))
+    if (finger >= FS_TOUCHED && (dx || dy) && (para->touchpad_off != TOUCHPAD_MOTION_OFF)){
         xf86PostMotionEvent(pInfo->dev, 0, 0, 2, dx, dy);
+	}
 
     if (priv->mid_emu_state == MBE_LEFT_CLICK) {
         post_button_click(pInfo, 1);
