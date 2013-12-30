@@ -88,9 +88,9 @@ usage(void)
     fprintf(stderr, "  -d Start as a daemon, i.e. in the background.\n");
     fprintf(stderr, "  -p Create a pid file with the specified name.\n");
     fprintf(stderr,
-            "  -t Disable state. 1 for disabling touchpad entirely, 2 for disabling tapping and scrolling only, 3 for disabling motion only.\n");
-    fprintf(stderr,
-            "  -M Only disable mouse movements.\n");
+            "  -t Disable state. 1 for disabling touchpad entirely, \n"
+            "     2 for disabling tapping and scrolling only,\n"
+            "     3 for disabling motion only.\n");
     fprintf(stderr,
             "  -k Ignore modifier keys when monitoring keyboard activity.\n");
     fprintf(stderr, "  -K Like -k but also ignore Modifier+Key combos.\n");
